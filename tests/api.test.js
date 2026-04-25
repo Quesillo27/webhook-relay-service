@@ -185,6 +185,31 @@ test('PATCH /api/destinations/:id actualiza url', async () => {
   assert.equal(res.body.data.url, 'https://new.example.com');
 });
 
+test('PATCH /api/destinations/:id actualiza solo headers', async () => {
+  const route = await request.post('/api/routes').send({ name: 'UpdHeaders', path: '/upd-headers' });
+  const dest = await request.post(`/api/routes/${route.body.data.id}/destinations`)
+    .send({ url: 'https://headers.example.com' });
+  const destId = dest.body.data.id;
+  const res = await request.patch(`/api/destinations/${destId}`)
+    .send({ headers: { 'x-test-token': 'abc123' } });
+
+  assert.equal(res.status, 200);
+  assert.deepEqual(res.body.data.headers, { 'x-test-token': 'abc123' });
+  assert.equal(res.body.data.url, 'https://headers.example.com');
+});
+
+test('PATCH /api/destinations/:id con headers inválidos retorna 400', async () => {
+  const route = await request.post('/api/routes').send({ name: 'BadHeaders', path: '/bad-headers' });
+  const dest = await request.post(`/api/routes/${route.body.data.id}/destinations`)
+    .send({ url: 'https://headers-invalid.example.com' });
+  const destId = dest.body.data.id;
+  const res = await request.patch(`/api/destinations/${destId}`)
+    .send({ headers: ['no-valido'] });
+
+  assert.equal(res.status, 400);
+  assert.match(res.body.error, /headers/);
+});
+
 test('DELETE /api/destinations/:id elimina el destino', async () => {
   const route = await request.post('/api/routes').send({ name: 'DelDest', path: '/del-dest' });
   const dest = await request.post(`/api/routes/${route.body.data.id}/destinations`)

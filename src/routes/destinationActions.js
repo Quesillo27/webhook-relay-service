@@ -3,7 +3,7 @@
 const router = require('express').Router({ mergeParams: true });
 const { getDb } = require('../db');
 const { requireApiKey } = require('../middleware/auth');
-const { validateDestinationBody } = require('../middleware/validate');
+const { validateDestinationUpdateBody } = require('../middleware/validate');
 
 router.get('/:id', requireApiKey, (req, res) => {
   const db = getDb();
@@ -12,7 +12,7 @@ router.get('/:id', requireApiKey, (req, res) => {
   res.json({ success: true, data: { ...dest, headers: safeParseJSON(dest.headers) } });
 });
 
-router.patch('/:id', requireApiKey, validateDestinationBody, (req, res) => {
+router.patch('/:id', requireApiKey, validateDestinationUpdateBody, (req, res) => {
   const { url, headers } = req.body;
   const db = getDb();
   const dest = db.prepare('SELECT * FROM destinations WHERE id = ?').get(req.params.id);

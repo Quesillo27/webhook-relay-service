@@ -3,10 +3,10 @@
 const router = require('express').Router({ mergeParams: true });
 const { getDb } = require('../db');
 const { requireApiKey } = require('../middleware/auth');
-const { validateDestinationBody } = require('../middleware/validate');
+const { validateDestinationCreateBody } = require('../middleware/validate');
 
 // POST /api/routes/:id/destinations
-router.post('/', requireApiKey, validateDestinationBody, (req, res) => {
+router.post('/', requireApiKey, validateDestinationCreateBody, (req, res) => {
   const { url, headers } = req.body;
   const db = getDb();
   const route = db.prepare('SELECT id FROM routes WHERE id = ?').get(req.params.routeId);

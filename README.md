@@ -1,6 +1,6 @@
 # Webhook Relay Service
 
-![Node.js](https://img.shields.io/badge/Node.js-20-339933?logo=node.js&logoColor=white) ![Express](https://img.shields.io/badge/Express-4-000000?logo=express) ![SQLite](https://img.shields.io/badge/SQLite-3-003B57?logo=sqlite) ![tests](https://img.shields.io/badge/tests-40%20passing-brightgreen) ![License](https://img.shields.io/badge/license-MIT-green)
+![Node.js](https://img.shields.io/badge/Node.js-20-339933?logo=node.js&logoColor=white) ![Express](https://img.shields.io/badge/Express-4-000000?logo=express) ![SQLite](https://img.shields.io/badge/SQLite-3-003B57?logo=sqlite) ![tests](https://img.shields.io/badge/tests-42%20passing-brightgreen) ![License](https://img.shields.io/badge/license-MIT-green)
 
 Servicio que recibe webhooks entrantes y los retransmite a múltiples destinos en paralelo, con reintentos automáticos y log completo de cada entrega. Útil para desarrollo, debugging y producción.
 
@@ -103,7 +103,7 @@ Envía el webhook al path de la ruta creada previamente. Acepta cualquier métod
 - **Toggle por destino**: activa/desactiva destinos sin eliminarlos
 - **Retry manual**: reenvía un evento específico con `POST /api/events/:id/retry`
 - **Stats por ruta**: `GET /api/stats` incluye desglose de eventos y deliveries por ruta
-- **Validación estricta**: URLs solo http/https, paths no reservados, longitudes máximas
+- **Validación estricta**: URLs solo http/https, paths no reservados, `headers` debe ser un objeto JSON
 - **Sin dependencias externas**: solo Express + better-sqlite3
 - **Docker-ready**: Dockerfile incluido con healthcheck
 - **Logger estructurado**: JSON con nivel (debug/info/warn/error), controlado por `LOG_LEVEL`
@@ -139,7 +139,7 @@ src/
 server.js                # entry point
 tests/
   db.test.js             # 10 tests: capa DB, migraciones, cascada
-  api.test.js            # 30 tests: endpoints HTTP completos
+  api.test.js            # 32 tests: endpoints HTTP completos
 ```
 
 ## Roadmap
@@ -152,4 +152,4 @@ tests/
 
 ## Contribuir
 
-PRs bienvenidos. Corre `npm test` antes de enviar (40 tests, 100% pass).
+PRs bienvenidos. Corre `npm test` antes de enviar (42 tests, 100% pass).
